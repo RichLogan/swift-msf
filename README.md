@@ -36,6 +36,23 @@ let json = try JSONEncoder().encode(catalog)
 
 Everything is `Codable`, `Sendable`, and `Equatable`. Unknown JSON fields are silently dropped per spec. Nil optionals are omitted when encoding.
 
+## msf-gen
+
+There's also a CLI tool for generating template catalogs for meetings. It outputs a single-participant template — clients read the catalog to learn the track structure, then publish their own tracks under a unique namespace.
+
+```bash
+# All three quality tiers
+swift run msf-gen --namespace "meeting.example.com/room42"
+
+# Just one
+swift run msf-gen --namespace "meeting.example.com/room42" --qualities 360p
+
+# Custom participant template name
+swift run msf-gen --namespace "meeting.example.com/room42" --participant user
+```
+
+Available quality presets: `1080p`, `720p`, `360p`. Output goes to stdout.
+
 ## Scope
 
 This covers the full catalog format from section 5 of the spec. Delta updates and timeline payloads (sections 7-8) aren't implemented yet.
