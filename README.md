@@ -65,6 +65,15 @@ We found a couple of inconsistencies in draft-00:
 - **`isLive`** is marked required but the spec's own examples omit it on timeline tracks. We model it as optional.
 - **`mimeType`** is camelCase in the field table but lowercase `mimetype` in example 5.3.8. We follow the field table.
 
+## Docker
+
+Builds `msf-gen` and libquicr's `qclient` (`eof` branch), then runs `publish-catalog.sh`.
+
+```bash
+podman build -t msf-publish .
+podman run --rm msf-publish moq://relay.example.com:33435
+```
+
 ## Requirements
 
 Swift 6.0+
