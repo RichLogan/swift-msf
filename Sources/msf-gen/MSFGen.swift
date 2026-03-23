@@ -9,7 +9,7 @@ struct MSFGen: ParsableCommand {
         abstract: "Generate an MSF template catalog for a meeting."
     )
 
-    @Option(name: .long, help: "Meeting namespace (e.g. meeting.example.com/room42)")
+    @Option(name: .long, help: "Encoded namespace prefix (e.g. meeting.2eexample.2ecom-room42)")
     var namespace: String
 
     @Option(
@@ -22,6 +22,7 @@ struct MSFGen: ParsableCommand {
     var participant: String = "participant"
 
     func run() throws {
+        let prefix = try TrackNamespace(parsing: namespace)
         let presets = try parseQualities(qualities)
 
         var tracks: [Track] = presets.map { preset in
@@ -29,7 +30,7 @@ struct MSFGen: ParsableCommand {
                 name: preset.rawValue,
                 packaging: .loc,
                 isLive: true,
-                namespace: TrackNamespace([namespace, preset.codec, participant]),
+                namespace: TrackNamespace(prefix.tuples + [preset.codec, participant]),
                 role: .video,
                 renderGroup: 1,
                 altGroup: 1,
@@ -45,7 +46,7 @@ struct MSFGen: ParsableCommand {
             name: "audio",
             packaging: .loc,
             isLive: true,
-            namespace: TrackNamespace([namespace, "opus", participant]),
+            namespace: TrackNamespace(prefix.tuples + ["opus", participant]),
             role: .audio,
             renderGroup: 1,
             codec: "opus",
