@@ -33,6 +33,7 @@ let json = try JSONEncoder().encode(catalog)
 - **`Track`** — all fields from the spec (name, packaging, codec, dimensions, bitrate, dependencies, etc.)
 - **`Packaging`** — enum: `loc`, `mediatimeline`, `eventtimeline`
 - **`TrackRole`** — open type with constants for the reserved roles (`video`, `audio`, `caption`, etc.) — custom roles decode fine
+- **`TrackNamespace`** — namespace tuple type with spec-compliant serialization (period-encoded, hyphen-separated)
 
 Everything is `Codable`, `Sendable`, and `Equatable`. Unknown JSON fields are silently dropped per spec. Nil optionals are omitted when encoding.
 
@@ -42,13 +43,13 @@ There's also a CLI tool for generating template catalogs for meetings. It output
 
 ```bash
 # All three quality tiers
-swift run msf-gen --namespace "meeting.example.com/room42"
+swift run msf-gen --namespace "meeting.example.com"
 
 # Just one
-swift run msf-gen --namespace "meeting.example.com/room42" --qualities 360p
+swift run msf-gen --namespace "meeting.example.com" --qualities 360p
 
 # Custom participant template name
-swift run msf-gen --namespace "meeting.example.com/room42" --participant user
+swift run msf-gen --namespace "meeting.example.com" --participant user
 ```
 
 Available quality presets: `1080p`, `720p`, `360p`. Output goes to stdout.

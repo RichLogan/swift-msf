@@ -23,14 +23,13 @@ struct MSFGen: ParsableCommand {
 
     func run() throws {
         let presets = try parseQualities(qualities)
-        let participantNamespace = "\(namespace)/\(participant)"
 
         var tracks: [Track] = presets.map { preset in
             Track(
                 name: preset.rawValue,
                 packaging: .loc,
                 isLive: true,
-                namespace: participantNamespace,
+                namespace: TrackNamespace([namespace, preset.codec, participant]),
                 role: .video,
                 renderGroup: 1,
                 altGroup: 1,
@@ -46,7 +45,7 @@ struct MSFGen: ParsableCommand {
             name: "audio",
             packaging: .loc,
             isLive: true,
-            namespace: participantNamespace,
+            namespace: TrackNamespace([namespace, "opus", participant]),
             role: .audio,
             renderGroup: 1,
             codec: "opus",

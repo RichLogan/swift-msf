@@ -83,7 +83,7 @@ import Foundation
         name: "hd-video",
         packaging: .loc,
         isLive: true,
-        namespace: "example.com/session1",
+        namespace: TrackNamespace(["example.com", "session1"]),
         targetLatency: 2000,
         role: .video,
         label: "HD Camera",
@@ -159,7 +159,7 @@ import Foundation
       "tracks": [
         {
           "name": "1080p-video",
-          "namespace": "conference.example.com/conference123/alice",
+          "namespace": "conference.2eexample.2ecom-conference123-alice",
           "packaging": "loc",
           "isLive": true,
           "targetLatency": 2000,
@@ -173,7 +173,7 @@ import Foundation
         },
         {
           "name": "audio",
-          "namespace": "conference.example.com/conference123/alice",
+          "namespace": "conference.2eexample.2ecom-conference123-alice",
           "packaging": "loc",
           "isLive": true,
           "targetLatency": 2000,
@@ -289,7 +289,7 @@ import Foundation
       "tracks": [
         {
           "name": "480p15",
-          "namespace": "conference.example.com/conference123/alice",
+          "namespace": "conference.2eexample.2ecom-conference123-alice",
           "renderGroup": 1,
           "packaging": "loc",
           "isLive": true,
@@ -302,7 +302,7 @@ import Foundation
         },
         {
           "name": "480p30",
-          "namespace": "conference.example.com/conference123/alice",
+          "namespace": "conference.2eexample.2ecom-conference123-alice",
           "renderGroup": 1,
           "packaging": "loc",
           "isLive": true,
@@ -316,7 +316,7 @@ import Foundation
         },
         {
           "name": "1080p15",
-          "namespace": "conference.example.com/conference123/alice",
+          "namespace": "conference.2eexample.2ecom-conference123-alice",
           "renderGroup": 1,
           "packaging": "loc",
           "isLive": true,
@@ -330,7 +330,7 @@ import Foundation
         },
         {
           "name": "1080p30",
-          "namespace": "conference.example.com/conference123/alice",
+          "namespace": "conference.2eexample.2ecom-conference123-alice",
           "renderGroup": 1,
           "packaging": "loc",
           "isLive": true,
@@ -344,7 +344,7 @@ import Foundation
         },
         {
           "name": "audio",
-          "namespace": "conference.example.com/conference123/alice",
+          "namespace": "conference.2eexample.2ecom-conference123-alice",
           "renderGroup": 1,
           "packaging": "loc",
           "isLive": true,
@@ -371,7 +371,7 @@ import Foundation
       "tracks": [
         {
           "name": "1080p-video",
-          "namespace": "conference.example.com/conference123/alice",
+          "namespace": "conference.2eexample.2ecom-conference123-alice",
           "packaging": "loc",
           "isLive": true,
           "role": "video",
@@ -401,7 +401,7 @@ import Foundation
       "tracks": [
         {
           "name": "video",
-          "namespace": "movies.example.com/assets/boy-meets-girl-season3/episode5",
+          "namespace": "movies.2eexample.2ecom-assets-boy.2dmeets.2dgirl.2dseason3-episode5",
           "packaging": "loc",
           "isLive": false,
           "trackDuration": 8072340,
@@ -414,7 +414,7 @@ import Foundation
         },
         {
           "name": "audio",
-          "namespace": "movies.example.com/assets/boy-meets-girl-season3/episode5",
+          "namespace": "movies.2eexample.2ecom-assets-boy.2dmeets.2dgirl.2dseason3-episode5",
           "packaging": "loc",
           "isLive": false,
           "trackDuration": 8072340,
@@ -442,14 +442,14 @@ import Foundation
       "tracks": [
         {
           "name": "history",
-          "namespace": "conference.example.com/conference123/alice",
+          "namespace": "conference.2eexample.2ecom-conference123-alice",
           "packaging": "mediatimeline",
           "mimeType": "application/json",
           "depends": ["1080p-video", "audio"]
         },
         {
           "name": "identified-objects",
-          "namespace": "another-provider/time-synchronized-data",
+          "namespace": "another.2dprovider-time.2dsynchronized.2ddata",
           "packaging": "eventtimeline",
           "eventType": "com.ai-extraction/appID/v3",
           "mimeType": "application/json",
@@ -457,7 +457,7 @@ import Foundation
         },
         {
           "name": "1080p-video",
-          "namespace": "conference.example.com/conference123/alice",
+          "namespace": "conference.2eexample.2ecom-conference123-alice",
           "packaging": "loc",
           "isLive": true,
           "targetLatency": 2000,
@@ -471,7 +471,7 @@ import Foundation
         },
         {
           "name": "audio",
-          "namespace": "conference.example.com/conference123/alice",
+          "namespace": "conference.2eexample.2ecom-conference123-alice",
           "packaging": "loc",
           "isLive": true,
           "targetLatency": 2000,

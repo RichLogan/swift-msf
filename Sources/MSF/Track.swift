@@ -6,7 +6,7 @@ public struct Track: Codable, Sendable, Equatable {
     
     // TODO: Should isLive be non-optional.
     public var isLive: Bool?
-    public var namespace: String?
+    public var namespace: TrackNamespace?
     public var targetLatency: Int?
     public var role: TrackRole?
     public var label: String?
@@ -35,7 +35,7 @@ public struct Track: Codable, Sendable, Equatable {
         name: String,
         packaging: Packaging,
         isLive: Bool? = nil,
-        namespace: String? = nil,
+        namespace: TrackNamespace? = nil,
         targetLatency: Int? = nil,
         role: TrackRole? = nil,
         label: String? = nil,
