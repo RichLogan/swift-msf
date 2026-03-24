@@ -58,7 +58,7 @@ struct MSFGen: ParsableCommand {
         let catalog = Catalog(version: 1, tracks: tracks)
 
         let encoder = JSONEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        encoder.outputFormatting = [.sortedKeys]
         let data = try encoder.encode(catalog)
         print(String(data: data, encoding: .utf8)!)
     }

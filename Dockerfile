@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git cmake g++ make pkg-config libssl-dev ca-certificates python3 python3-venv \
     && rm -rf /var/lib/apt/lists/*
 WORKDIR /src
-RUN git clone --recurse-submodules -b eof https://github.com/quicr/libquicr.git
+RUN git clone --recurse-submodules -b file-watcher-qclient https://github.com/quicr/libquicr.git
 WORKDIR /src/libquicr
 RUN cmake -Bbuild -DCMAKE_BUILD_TYPE=Release \
     -DBUILD_TESTING=ON -DQUICR_BUILD_TESTS=ON \
@@ -20,7 +20,7 @@ RUN cmake -Bbuild -DCMAKE_BUILD_TYPE=Release \
 
 FROM ubuntu:24.04
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    jq libssl3 ca-certificates \
+    libssl3 ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 COPY --from=msf-build /src/swift-msf/.build/release/msf-gen /usr/local/bin/msf-gen
 COPY --from=qclient-build /src/libquicr/build/cmd/examples/qclient /usr/local/bin/qclient

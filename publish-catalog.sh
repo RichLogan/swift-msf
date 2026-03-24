@@ -10,4 +10,8 @@ QCLIENT="${QCLIENT:-$(command -v qclient 2>/dev/null || echo "$SCRIPT_DIR/../lib
 RELAY="${RELAY:-${1:-moq://localhost:33435}}"
 NAMESPACE="cisco.2ewebex.2ecom-nab-v1"
 
-"$MSF_GEN" --namespace "$NAMESPACE" | jq -c . | "$QCLIENT" -r "$RELAY" --pub_namespace "cisco.webex.com,nab,v1" --pub_name catalog
+CATALOG_FILE="${CATALOG_FILE:-/tmp/msf-catalog.json}"
+
+"$MSF_GEN" --namespace "$NAMESPACE" > "$CATALOG_FILE"
+
+"$QCLIENT" -r "$RELAY" --pub_namespace "cisco.webex.com,nab,v1" --pub_name catalog --watch "$CATALOG_FILE"
