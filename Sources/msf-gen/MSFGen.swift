@@ -30,7 +30,7 @@ struct MSFGen: ParsableCommand {
                 name: preset.rawValue,
                 packaging: .loc,
                 isLive: true,
-                namespace: TrackNamespace(prefix.tuples + [preset.codec, participant]),
+                namespace: TrackNamespace(prefix.tuples + [preset.rawValue, participant]),
                 role: .video,
                 renderGroup: 1,
                 altGroup: 1,
