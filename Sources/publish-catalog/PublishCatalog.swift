@@ -46,10 +46,8 @@ struct PublishCatalog: AsyncParsableCommand {
             throw ExitCode(gen.terminationStatus)
         }
 
-        // Build the catalog publish namespace: base prefix + publisherId.
         let prefix = try TrackNamespace(parsing: namespace)
-        let catalogNamespace = TrackNamespace(prefix.tuples + [publisherId])
-        let pubNamespace = catalogNamespace.tuples.joined(separator: ",")
+        let pubNamespace = prefix.tuples.joined(separator: ",")
 
         // Supervise qclient with restart-on-failure.
         // Race the supervisor loop against a termination signal.
