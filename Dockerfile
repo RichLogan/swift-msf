@@ -23,8 +23,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libssl3 ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 COPY --from=msf-build /src/swift-msf/.build/release/msf-gen /usr/local/bin/msf-gen
+COPY --from=msf-build /src/swift-msf/.build/release/publish-catalog /usr/local/bin/publish-catalog
 COPY --from=qclient-build /src/libquicr/build/cmd/examples/qclient /usr/local/bin/qclient
-COPY publish-catalog.sh /usr/local/bin/publish-catalog.sh
-RUN chmod +x /usr/local/bin/publish-catalog.sh
 
-ENTRYPOINT ["publish-catalog.sh"]
+ENTRYPOINT ["publish-catalog"]

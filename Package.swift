@@ -4,6 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "swift-msf",
+    platforms: [.macOS(.v13)],
     products: [
         .library(name: "MSF", targets: ["MSF"]),
     ],
@@ -16,6 +17,13 @@ let package = Package(
             name: "msf-gen",
             dependencies: [
                 "MSF",
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
+            ]
+        ),
+        .executableTarget(
+            name: "publish-catalog",
+            dependencies: [
+                "msf-gen",
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
             ]
         ),

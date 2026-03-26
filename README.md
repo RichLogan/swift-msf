@@ -65,13 +65,23 @@ We found a couple of inconsistencies in draft-00:
 - **`isLive`** is marked required but the spec's own examples omit it on timeline tracks. We model it as optional.
 - **`mimeType`** is camelCase in the field table but lowercase `mimetype` in example 5.3.8. We follow the field table.
 
+## publish-catalog
+
+A companion binary that generates a catalog with `msf-gen` and publishes it via `qclient`, automatically restarting if qclient exits or the relay goes down.
+
+```bash
+swift run publish-catalog --relay moq://localhost:33435 --qclient ~/libquicr/build/cmd/examples/qclient
+```
+
+All options have sensible defaults — run `swift run publish-catalog --help` for the full list.
+
 ## Docker
 
-Builds `msf-gen` and libquicr's `qclient` (`eof` branch), then runs `publish-catalog.sh`.
+Builds `msf-gen`, `publish-catalog`, and libquicr's `qclient`, then runs `publish-catalog`.
 
 ```bash
 podman build -t msf-publish .
-podman run --rm msf-publish moq://relay.example.com:33435
+podman run --rm msf-publish --relay moq://relay.example.com:33435
 ```
 
 ## Requirements
