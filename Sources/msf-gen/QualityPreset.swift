@@ -28,6 +28,6 @@ enum QualityPreset: String, CaseIterable, Sendable {
         }
     }
 
-    var framerate: Double { 30 }
+    var framerate: Double { 60 }
     var codec: String { "avc1" }
 }
