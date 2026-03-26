@@ -31,7 +31,7 @@ struct PublishCatalog: AsyncParsableCommand {
         let msfGenPath = findInPath("msf-gen") ?? "\(buildDir)/msf-gen"
         let qclientPath = qclient ?? findInPath("qclient") ?? "qclient"
 
-        let publisherId = "publisher_\(UInt64.random(in: 0...UInt64.max))"
+        let publisherId = "publisher_0XCA1A109"
         print("Publisher ID: \(publisherId)")
 
         // Generate catalog.
@@ -47,7 +47,8 @@ struct PublishCatalog: AsyncParsableCommand {
         }
 
         let prefix = try TrackNamespace(parsing: namespace)
-        let pubNamespace = prefix.tuples.joined(separator: ",")
+        let catalogNamespace = TrackNamespace(prefix.tuples + ["catalog", publisherId])
+        let pubNamespace = catalogNamespace.tuples.joined(separator: ",")
 
         // Supervise qclient with restart-on-failure.
         // Race the supervisor loop against a termination signal.
