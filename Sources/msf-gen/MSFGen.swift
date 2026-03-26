@@ -18,8 +18,8 @@ struct MSFGen: ParsableCommand {
     )
     var qualities: String = "1080p,720p,360p"
 
-    @Option(name: .long, help: "Template participant name")
-    var participant: String = "participant"
+    @Option(name: .long, help: "Publisher ID (e.g. publisher_12345)")
+    var publisherId: String
 
     func run() throws {
         let prefix = try TrackNamespace(parsing: namespace)
@@ -27,10 +27,10 @@ struct MSFGen: ParsableCommand {
 
         var tracks: [Track] = presets.map { preset in
             Track(
-                name: preset.rawValue,
+                name: "video",
                 packaging: .loc,
                 isLive: true,
-                namespace: TrackNamespace(prefix.tuples + [preset.rawValue, participant]),
+                namespace: TrackNamespace(prefix.tuples + [preset.codec, String(preset.height), publisherId]),
                 role: .video,
                 renderGroup: 1,
                 altGroup: 1,
@@ -46,7 +46,7 @@ struct MSFGen: ParsableCommand {
             name: "audio",
             packaging: .loc,
             isLive: true,
-            namespace: TrackNamespace(prefix.tuples + ["opus", participant]),
+            namespace: TrackNamespace(prefix.tuples + ["opus", publisherId]),
             role: .audio,
             renderGroup: 1,
             codec: "opus",

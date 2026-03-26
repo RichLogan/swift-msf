@@ -4,6 +4,7 @@ import Dispatch
 @preconcurrency import Glibc
 #endif
 import Foundation
+import MSF
 
 @main
 struct PublishCatalog: AsyncParsableCommand {
@@ -15,11 +16,8 @@ struct PublishCatalog: AsyncParsableCommand {
     @Option(name: .long, help: "Relay URL")
     var relay: String = "moq://localhost:33435"
 
-    @Option(name: .long, help: "Encoded namespace for msf-gen")
+    @Option(name: .long, help: "Encoded namespace prefix (e.g. cisco.2ewebex.2ecom-nab-v1)")
     var namespace: String = "cisco.2ewebex.2ecom-nab-v1"
-
-    @Option(name: .long, help: "Publish namespace for qclient")
-    var pubNamespace: String = "cisco.webex.com,nab,v1"
 
     @Option(name: .long, help: "Path to catalog output file")
     var catalogFile: String = "/tmp/msf-catalog.json"
@@ -33,11 +31,14 @@ struct PublishCatalog: AsyncParsableCommand {
         let msfGenPath = findInPath("msf-gen") ?? "\(buildDir)/msf-gen"
         let qclientPath = qclient ?? findInPath("qclient") ?? "qclient"
 
+        let publisherId = "publisher_\(UInt64.random(in: 0...UInt64.max))"
+        print("Publisher ID: \(publisherId)")
+
         // Generate catalog.
         _ = FileManager.default.createFile(atPath: catalogFile, contents: nil)
         let gen = Process()
         gen.executableURL = URL(fileURLWithPath: msfGenPath)
-        gen.arguments = ["--namespace", namespace]
+        gen.arguments = ["--namespace", namespace, "--publisher-id", publisherId]
         gen.standardOutput = try FileHandle(forWritingTo: URL(fileURLWithPath: catalogFile))
         try gen.run()
         gen.waitUntilExit()
@@ -45,10 +46,14 @@ struct PublishCatalog: AsyncParsableCommand {
             throw ExitCode(gen.terminationStatus)
         }
 
+        // Build the catalog publish namespace: base prefix + publisherId.
+        let prefix = try TrackNamespace(parsing: namespace)
+        let catalogNamespace = TrackNamespace(prefix.tuples + [publisherId])
+        let pubNamespace = catalogNamespace.tuples.joined(separator: ",")
+
         // Supervise qclient with restart-on-failure.
         // Race the supervisor loop against a termination signal.
         let relay = relay
-        let pubNamespace = pubNamespace
         let catalogFile = catalogFile
         await withTaskGroup(of: Void.self) { group in
             group.addTask {
