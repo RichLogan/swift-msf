@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git cmake g++ make pkg-config libssl-dev ca-certificates python3 python3-venv \
     && rm -rf /var/lib/apt/lists/*
 WORKDIR /src
+ADD https://api.github.com/repos/quicr/libquicr/commits/main /tmp/libquicr-version.json
 RUN git clone --recurse-submodules https://github.com/quicr/libquicr.git
 WORKDIR /src/libquicr
 RUN cmake -Bbuild -DCMAKE_BUILD_TYPE=Release \
